@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Request Leave{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Request Leave</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="staff_id" class="form-label">Staff ID:</label>
+            <textarea name="reason" id="staff_id" class="form-control" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="leave_reason" class="form-label">Leave Reason:</label>
+            <textarea name="reason" id="leave_reason" class="form-control" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="start_date" class="form-label">Start Date:</label>
+            <input type="date" name="start_date" id="start_date" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="end_date" class="form-label">End Date:</label>
+            <input type="date" name="end_date" id="end_date" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary mt-2">Back</a>
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <script>alert("{{ message }}");</script>
+        {% endfor %}
+    {% endif %}
+
+    <h3 class="mt-4">Submitted Leave Requests</h3>
+    <ul>
+        {% for leave in leave_requests %}
+            <li>
+                <strong>{{ leave.start_date }} to {{ leave.end_date }}:</strong>
+                {{ leave.reason }} - <span class="badge 
+                {% if leave.status == 'Pending' %}badge-warning
+                {% elif leave.status == 'Approved' %}badge-success
+                {% else %}badge-danger{% endif %}">
+                {{ leave.status }}</span>
+            </li>
+        {% empty %}
+            <li>No leave requests submitted yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

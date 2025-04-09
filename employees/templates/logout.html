@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Logout{% endblock %}
+{% block content %}
+<div class="logout-container">
+    <h2>Are you sure you want to log out?</h2>
+    <a href="{% url 'logout' %}" class="btn danger">Yes, Logout</a>
+    <a href="{% url 'dashboard' %}" class="btn">Cancel</a>
+</div>
+{% endblock %}

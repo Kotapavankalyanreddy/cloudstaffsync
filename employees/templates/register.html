@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container text-center">
+    <h2 class="mt-4">Register</h2>
+    
+    <div class="p-4 bg-light text-dark rounded shadow" style="max-width: 600px; margin: auto;">
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Display form errors -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            
+            <!-- Render form fields -->
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">REGISTER</button>
+        </form>
+        
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        
+    </div>
+</div>
+{% endblock %}

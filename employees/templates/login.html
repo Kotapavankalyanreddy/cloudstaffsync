@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Login - CloudStaffSync{% endblock %}
+{% block content %}
+<div class="login-container">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="input-group">
+            <label>Username</label>
+            <input type="text" name="username" required>
+        </div>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" required>
+        </div>
+        <div class="input-group">
+            <label for="role">Login as:</label>
+            <select name="role" id="role">
+                <option value="staff">Staff</option>
+                <option value="management">Management</option>
+            </select>
+        </div>
+        <button type="submit" class="btn">Login</button>
+    </form>
+    <p class="mt-3">Don't have an account? <a href="{% url 'register' %}">Sign up</a></p>
+</div>
+{% endblock %}

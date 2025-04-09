@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Staff Attendance{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Staff Attendance</h2>
+    <div style="display: flex; justify-content: center;">
+    {% if attendance_records %}
+    <table class="table table-bordered mt-4 text-center">
+        <thead class="thead-dark">
+            <tr>
+                <th>Date</th>
+            
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance_records %}
+            <tr>
+                <td>{{ record.date }}</td>
+            
+                <td>
+                    {% if record.status == "Present" %}
+                        <span class="badge badge-success">Present</span>
+                    {% else %}
+                        <span class="badge badge-danger">Absent</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center">No attendance records available.</p>
+    {% endif %}
+</div>
+    <div class="text-center mt-3">
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+{% endblock %}

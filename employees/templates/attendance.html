@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Attendance Tracking{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Attendance Tracking</h2>
+    <p class="text-center">Your attendance record will be displayed here.</p>
+
+    <div class="container mt-4">
+        <h4 class="text-center">Calendar</h4>
+        <div id="calendar-container">
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.8/index.global.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<style>
+    #calendar-container {
+        max-width: 600px;
+        margin: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 8px;
+        background: #f9f9f9;
+    }
+
+    #calendar {
+        max-height: 300px;
+        overflow: hidden;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            height: 300,
+            events: '/api/get_attendance_data/',
+            dateClick: function (info) {
+                // Redirect to add_attendance.html with the selected date
+                window.location.href = "{% url 'add_attendance' %}?date=" + info.dateStr;
+            },
+            eventClick: function (info) {
+                alert("You clicked on event: " + info.event.title);
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+
+{% endblock %}

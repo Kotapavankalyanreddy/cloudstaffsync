@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="profile-image">
+        <img align="right" src="{% static 'images/profile_picture.png' %}" alt="Profile Picture">
+    </div>
+</div>
+    <div class="profile-container">
+        <div class="profile-details">
+            <h2>PROFILE</h2>
+            <p><strong>Full Name:</strong> {{ profile_page.full_name }}</p>
+            <p><strong>Date of Birth:</strong> {{ profile_page.Dob }}</p>
+            <p><strong>Email:</strong> {{ profile_page.email }}</p>
+            <p><strong>Staff ID:</strong> {{ profile_page.staff_id }}</p>
+            <p><strong>Mobile Number:</strong> {{ profile_page.mobile_no }}</p>
+            <p><strong>Address:</strong> {{ profile_page.address }}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">Back</a>
+                <a href="{% url 'edit_profile' %}" class="edit-profile-btn">EDIT PROFILE</a>
+                
+            </div>
+        </div>
+    </div>
+
+
+       
+
+</body>
+</html>
+
+{% endblock %}

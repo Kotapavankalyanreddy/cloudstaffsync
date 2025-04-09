@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %} StaffPayroll - CloudStaffSync {% endblock %}
+{% block content %}
+<a href="{% url 'staff_dashboard' %}" class="btn btn-secondary">Back</a>
+
+<div class="container mt-4">
+    <h2 class="text-center">Payroll Management</h2>
+    <h3 class="mt-5">Your Payroll History</h3>
+    <div style="display: flex; justify-content: center;">
+        <table class="table table-bordered mt-3 text-center">
+            <thead>
+                <tr>
+                    <th>Month || </th>
+                    <th>Gross Pay || </th>
+                    <th>PF Amount || </th>
+                    <th>Taxes || </th>
+                    <th>Benefits || </th>
+                    <th>Net Pay || </th>
+                    <th>Action ||</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payroll in payrolls %}
+                <tr>
+                    <td>{{ payroll.month }} || </td> 
+                    <td>{{ payroll.gross_pay }} || </td>
+                    <td>{{ payroll.pf_amount }} || </td>
+                    <td>{{ payroll.taxes }} || </td>
+                    <td>{{ payroll.benefits }} || </td>
+                    <td>{{ payroll.net_pay }} || </td>
+                    <td><a href="{% url 'view_payslip' payroll.id %}" class="btn btn-sm btn-primary">View Payslip</a> ||</td> 
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No payroll records found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
