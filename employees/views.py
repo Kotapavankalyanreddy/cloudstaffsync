@@ -13,7 +13,7 @@ from django.http import JsonResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import csrf_exempt
 from .models import CustomUser, ProfilePage
-
+from cloud_utils.user_auth import process_login
 
 def home(request):
     return render(request, 'home.html')
@@ -22,24 +22,20 @@ def home(request):
 
 
 @csrf_exempt
-def login_view(request):
+def login_view(request): 
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        role = request.POST.get("role")
+        role = request.POST.get("role")  
+        user = process_login(request, role)  
 
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            user = authenticate(request, username=username, password=password)
+        if user:
+            if role == "staff":
+                return render(request, "staff_dashboard.html")
+            elif role == "management":
+                return render(request, "dashboard.html")
+        else:
+            form = AuthenticationForm(request, data=request.POST)
+            return render(request, "login.html", {"form": form, "error": "Invalid credentials"})
 
-            if user:
-                login(request, user)
-                if role == "staff":
-                    return render(request,"staff_dashboard.html")  
-                elif role == "management":
-                    return render(request,"dashboard.html")  
-        return render(request, "login.html", {"form": form, "error": "Invalid credentials"})
-    
     form = AuthenticationForm()
     return render(request, "login.html", {"form": form})
 
